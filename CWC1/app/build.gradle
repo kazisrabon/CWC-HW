@@ -24,4 +24,5 @@ dependencies {
     compile 'com.android.support:support-v4:21.0.3'
     androidTestCompile 'junit:junit:4.+'
     androidTestCompile files('libs/robolectric-2.4.jar')
+    androidTestCompile files('libs/fest-android-1.0.0-sources.jar')
 }
