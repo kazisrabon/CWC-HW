@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.bs_36.cwc1" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".DashboardActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!--  Login Activity -->
+        <activity
+            android:label="Login Account"
+            android:name=".LoginActivity"
+            android:uiOptions="splitActionBarWhenNarrow"></activity>
+
+        <!--  Register Activity -->
+        <!--  Register Activity -->
+        <activity
+            android:label="Register New Account"
+            android:name=".RegisterActivity"
+            android:uiOptions="splitActionBarWhenNarrow"></activity>
+
+        <activity android:name="PasswordReset"
+            android:label="Reset Password"
+            android:parentActivityName="com.example.bs_36.cwc1.LoginActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.bs_36.cwc1.LoginActivity" />
+        </activity>
+
+        <activity android:name="ChangePassword"
+            android:label="Change Password"
+            android:parentActivityName="com.example.bs_36.cwc1.DashboardActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.bs_36.cwc1.DashboardActivity" />
+        </activity>
+    </application>
+
+    <!-- Allow to connect with internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+</manifest>
