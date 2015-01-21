@@ -15,7 +15,7 @@ import java.util.List;
 public class UserFunctions {
 	
 	private JSONParser jsonParser;
-	
+//	place the real api instead of http://10.0.2.2/android_login_api/
 	private static String loginURL = "http://10.0.2.2/android_login_api/";
 	private static String registerURL = "http://10.0.2.2/android_login_api/";
     private static String forpassURL = "http://10.0.2.2/android_login_api/";
