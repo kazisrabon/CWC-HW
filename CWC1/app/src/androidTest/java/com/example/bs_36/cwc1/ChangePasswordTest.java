@@ -31,12 +31,12 @@ public class ChangePasswordTest {
     {
         Button button1 = (Button) changePassword.findViewById(R.id.btchangepass);
         button1.performClick();
-        Intent intent = Robolectric.shadowOf(changePassword).peekNextStartedActivity();
-        assertEquals(ChangePassword.class.getCanonicalName(), intent.getComponent().getClassName());
+        Intent intent1 = Robolectric.shadowOf(changePassword).peekNextStartedActivity();
+        assertEquals(ChangePassword.class.getCanonicalName(), intent1.getComponent().getClassName());
 
         Button button2 = (Button) changePassword.findViewById(R.id.btcancel);
         button2.performClick();
-        Intent intent = Robolectric.shadowOf(changePassword).peekNextStartedActivity();
-        assertEquals(DashboardActivity.class.getCanonicalName(), intent.getComponent().getClassName());
+        Intent intent2 = Robolectric.shadowOf(changePassword).peekNextStartedActivity();
+        assertEquals(DashboardActivity.class.getCanonicalName(), intent2.getComponent().getClassName());
     }
 }

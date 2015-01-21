@@ -32,12 +32,12 @@ public class PasswordResetTest {
         {
             Button button1 = (Button) passwordReset.findViewById(R.id.bktolog);
             button1.performClick();
-            Intent intent = Robolectric.shadowOf(passwordReset).peekNextStartedActivity();
-            assertEquals(LoginActivity.class.getCanonicalName(), intent.getComponent().getClassName());
+            Intent intent1 = Robolectric.shadowOf(passwordReset).peekNextStartedActivity();
+            assertEquals(LoginActivity.class.getCanonicalName(), intent1.getComponent().getClassName());
 
             Button button2 = (Button) passwordReset.findViewById(R.id.respass);
             button2.performClick();
-            Intent intent = Robolectric.shadowOf(passwordReset).peekNextStartedActivity();
-            assertEquals(PasswordReset.class.getCanonicalName(), intent.getComponent().getClassName());
+            Intent intent2 = Robolectric.shadowOf(passwordReset).peekNextStartedActivity();
+            assertEquals(PasswordReset.class.getCanonicalName(), intent2.getComponent().getClassName());
         }
 }

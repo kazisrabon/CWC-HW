@@ -35,12 +35,12 @@ public class RegisterActivityTest {
     {
         Button button1 = (Button) registerActivity.findViewById(R.id.btnRegister);
         button1.performClick();
-        Intent intent = Robolectric.shadowOf(registerActivity).peekNextStartedActivity();
-        assertEquals(DashboardActivity.class.getCanonicalName(), intent.getComponent().getClassName());
+        Intent intent1 = Robolectric.shadowOf(registerActivity).peekNextStartedActivity();
+        assertEquals(DashboardActivity.class.getCanonicalName(), intent1.getComponent().getClassName());
 
         Button button2 = (Button) registerActivity.findViewById(R.id.btnLinkToRegisterScreen);
         button2.performClick();
-        Intent intent = Robolectric.shadowOf(registerActivity).peekNextStartedActivity();
-        assertEquals(LoginActivity.class.getCanonicalName(), intent.getComponent().getClassName());
+        Intent intent2 = Robolectric.shadowOf(registerActivity).peekNextStartedActivity();
+        assertEquals(LoginActivity.class.getCanonicalName(), intent2.getComponent().getClassName());
     }
 }
