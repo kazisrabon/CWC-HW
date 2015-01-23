@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.bs_36.cwc1.library.UserFunctions;
 import com.example.bs_36.cwc1.library.DatabaseHandler;
 
@@ -52,7 +54,8 @@ public class PasswordReset extends Activity {
                 forgotpassword = email.getText().toString();
                 UserFunctions userFunction = new UserFunctions();
                 JSONObject json = userFunction.forPass(forgotpassword);
-                alert.setText("A recovery email is sent to you, see it for more details.");
+                Toast.makeText(getApplicationContext(), "A recovery email is sent to you, see it for more details.", Toast.LENGTH_SHORT).show();
+//                alert.setText("A recovery email is sent to you, see it for more details.");
             }
 
         });

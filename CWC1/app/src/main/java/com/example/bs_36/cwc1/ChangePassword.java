@@ -76,33 +76,9 @@ public class ChangePassword extends Activity {
                     UserFunctions userFunction = new UserFunctions();
                     JSONObject json = userFunction.chgPass(newpas, email);
 
-                    alert.setText("Your Password is successfully changed.");
+                    Toast.makeText(getApplicationContext(), "Your Password is successfully changed.", Toast.LENGTH_SHORT).show();
+//                    alert.setText("Your Password is successfully changed.");
 
-//                try {
-//                    if (json.getString(KEY_SUCCESS) != null) {
-//                        alert.setText("");
-//                        String res = json.getString(KEY_SUCCESS);
-//                        String red = json.getString(KEY_ERROR);
-//
-//
-//                        if (Integer.parseInt(res) == 1) {
-//                            /**
-//                             * Dismiss the process dialog
-//                             **/
-//                            pDialog.dismiss();
-//                            alert.setText("Your Password is successfully changed.");
-//
-//                        } else if (Integer.parseInt(red) == 2) {
-//                            pDialog.dismiss();
-//                            alert.setText("Invalid old Password.");
-//                        } else {
-//                            pDialog.dismiss();
-//                            alert.setText("Error occured in changing Password.");
-//                        }
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
                 }
             });
         }else{
