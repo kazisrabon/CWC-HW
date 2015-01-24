@@ -1,0 +1,56 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ShareMenu" 
+    android:background="@drawable/android">
+   <TextView 
+		android:id="@+id/text"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:textSize="14sp"
+		android:textStyle="bold"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:layout_marginTop="20dp"
+		android:textColor="#000000"
+	/>
+    <TextView 
+		android:id="@+id/dialogTitle"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:textColor="#000000"
+		android:textSize="14sp"
+		android:text="Share Update"
+		android:layout_marginTop="30dp"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:textStyle="bold"
+		android:layout_below="@+id/text"	
+	/>  
+	<EditText 
+	    android:id="@+id/editTxt"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:textColor="#000000"
+		android:textSize="12sp"
+		android:layout_margin="5dp"
+		android:hint="Enter Message"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="10dp"
+		android:layout_below="@+id/dialogTitle"
+	/>
+	<Button 
+		android:id="@+id/update"
+		android:layout_height="20dp"
+		android:layout_width="wrap_content"
+		android:background="#147af8"
+		android:textColor="#000000"
+		android:textSize="12sp"
+		android:text="Update"
+		android:layout_alignRight="@+id/editTxt"
+		android:layout_marginRight="10dp"
+		android:layout_below="@+id/editTxt"
+	/>
+   
+</RelativeLayout>

@@ -2,8 +2,6 @@ package com.example.bs_36.cwc1;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
@@ -13,13 +11,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.bs_36.cwc1.library.UserFunctions;
+
 import com.example.bs_36.cwc1.library.DatabaseHandler;
+import com.example.bs_36.cwc1.library.UserFunctions;
 
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by BS-36 on 1/20/2015.
@@ -49,7 +47,6 @@ public class ChangePassword extends Activity {
                 public void onClick(View arg0) {
 
                     Intent login = new Intent(getApplicationContext(), DashboardActivity.class);
-
                     startActivity(login);
                     finish();
                 }
@@ -120,22 +117,8 @@ public class ChangePassword extends Activity {
                 break;
 
             case R.id.share:
-                Intent ShareIntent = new Intent();
-                ShareIntent.setAction(Intent.ACTION_SEND);
-                ShareIntent.setType("text/plain");
-                //Put profile specific text here
-                ShareIntent.putExtra(Intent.EXTRA_TEXT, "My Profile");
-                PackageManager pm = getPackageManager();
-                List<ResolveInfo> resolve = pm.queryIntentActivities(ShareIntent,
-                        0);
-                boolean isAvailable = resolve.size() > 0;
-                if (isAvailable) {
-                    startActivity(ShareIntent);
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "No Handling Application Found,Please Install at least one (facebook,email or sms)", Toast.LENGTH_SHORT)
-                            .show();
-                }
+                Intent shareIntent = new Intent(getApplicationContext(), ShareMenu.class);
+                startActivity(shareIntent);
                 break;
 
             case R.id.logout:
@@ -148,4 +131,5 @@ public class ChangePassword extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

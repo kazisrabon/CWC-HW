@@ -25,4 +25,6 @@ dependencies {
     androidTestCompile 'junit:junit:4.+'
     androidTestCompile files('libs/robolectric-2.4.jar')
     androidTestCompile files('libs/fest-android-1.0.0-sources.jar')
+    compile files('libs/socialauth-android-3.2.jar')
+    compile files('libs/socialauth-4.4.jar')
 }
