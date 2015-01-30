@@ -29,6 +29,10 @@ public class Products {
         this.branch_name = branch_name;
     }
 
+    public Products() {
+
+    }
+
     public String getPhone() {
         return phone;
     }

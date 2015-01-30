@@ -3,6 +3,7 @@ package com.example.bs_36.cwc1;
 import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -25,6 +26,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.google.gson.Gson;
@@ -38,6 +42,9 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -46,6 +53,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import com.example.bs_36.cwc1.app.AppController;
+import com.android.volley.toolbox.JsonArrayRequest;
 
 /**
  * Created by BS-36 on 1/28/2015.
@@ -54,16 +62,22 @@ public class products_Fragment extends Fragment {
     private FragmentActivity dashboardActivity;
     private LinearLayout products;
     private List<Products> myProducts = new ArrayList<Products>();
-    String url = "http://www.mocky.io/v2/54c9f833fb22055b059efeca"; //http://cbllocator.thecitybank.com:8082/index.php/home/newBranchData
+    String url = "http://www.mocky.io/v2/54ca3487fb2205170c9eff13"; //http://cbllocator.thecitybank.com:8082/index.php/home/newBranchData
     InputStream is = null;
     String json = "";
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+    private static final String TAG = DashboardActivity.class.getSimpleName();
+    private ProgressDialog pDialog;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         dashboardActivity  = (FragmentActivity)    super.getActivity();
         products = (LinearLayout) inflater.inflate(R.layout.fragment_products, container, false);
         StrictMode.enableDefaults();
+        pDialog = new ProgressDialog(getActivity());
+        // Showing progress dialog before making http request
+        pDialog.setMessage("Loading...");
+        pDialog.show();
 
         popupalteView();
         return products;
@@ -82,6 +96,54 @@ public class products_Fragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(String... arg0) {
+//
+//            JsonArrayRequest movieReq = new JsonArrayRequest(url,
+//                    new Response.Listener<JSONArray>() {
+//                        @Override
+//                        public void onResponse(JSONArray response) {
+//                            Log.d(TAG, response.toString());
+//                            hidePDialog();
+//
+//                            // Parsing json
+//                            for (int i = 0; i < response.length(); i++) {
+//                                try {
+//
+//                                    JSONObject obj = response.getJSONObject(i);
+//                                    Products prdct = new Products();
+//                                    prdct.setImgUrl(obj.getString("image"));
+//                                    prdct.setImgUrl(obj.getString("branch_name"));
+//                                    prdct.setImgUrl(obj.getString("district"));
+//                                    prdct.setImgUrl(obj.getString("latitude"));
+//                                    prdct.setImgUrl(obj.getString("longitude"));
+//                                    prdct.setImgUrl(obj.getString("address"));
+//                                    prdct.setImgUrl(obj.getString("phone"));
+//                                    prdct.setImgUrl(obj.getString("mobile"));
+//                                    prdct.setImgUrl(obj.getString("email"));
+//
+//                                    // adding movie to movies array
+//                                    myProducts.add(prdct);
+//
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+//
+//                            }
+//
+//                            // notifying list adapter about data changes
+//                            // so that it renders the list view with updated data
+////                            adapter.notifyDataSetChanged();
+//                        }
+//                    }, new Response.ErrorListener() {
+//                @Override
+//                public void onErrorResponse(VolleyError error) {
+//                    VolleyLog.d(TAG, "Error: " + error.getMessage());
+//                    hidePDialog();
+//
+//                }
+//            });
+//
+//            // Adding request to request queue
+//            AppController.getInstance().addToRequestQueue(movieReq);
 
             try {
                 HttpClient httpclient = new DefaultHttpClient();
@@ -112,6 +174,7 @@ public class products_Fragment extends Fragment {
                     Log.e("parse", jArray.toString());
                     myProducts.add(parse);
                 }
+                hidePDialog();
 
             } catch (ClientProtocolException e) {
                 // TODO Auto-generated catch block
@@ -233,5 +296,24 @@ public class products_Fragment extends Fragment {
         manager.notify(8, notification);
         notification.defaults |= Notification.DEFAULT_SOUND;
         notification.defaults |= Notification.DEFAULT_VIBRATE;
+    }
+
+    private void hidePDialog() {
+        if (pDialog != null) {
+            pDialog.dismiss();
+            pDialog = null;
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        hidePDialog();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        hidePDialog();
     }
 }
