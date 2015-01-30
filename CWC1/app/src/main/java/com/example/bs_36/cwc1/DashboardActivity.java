@@ -1,29 +1,27 @@
 package com.example.bs_36.cwc1;
 
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.view.ViewGroup;
 import android.widget.Toast;
-
-import java.util.HashMap;
-import java.util.List;
 import com.example.bs_36.cwc1.library.UserFunctions;
-import com.example.bs_36.cwc1.library.DatabaseHandler;
 
-
-
-public class DashboardActivity extends Activity {
+public class DashboardActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks{
     UserFunctions userFunctions;
-    Button btnLogout;
-    Button changepas;
-
+    private NavigationDrawerFragment mNavigationDrawerFragment;
+    private CharSequence mTitle;
+    int mPosition = -1;
+    String[] mPage ;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,38 +34,14 @@ public class DashboardActivity extends Activity {
         if(userFunctions.isUserLoggedIn(getApplicationContext())){
             setContentView(R.layout.dashboard);
 
-            DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+            mPage = getResources().getStringArray(R.array.pages);
+            mNavigationDrawerFragment = (NavigationDrawerFragment)
+                    getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+            mTitle = getTitle();
 
-            HashMap<String,String> user = new HashMap<String, String>();
-            user = db.getUserDetails();
-
-            final TextView fname = (TextView)findViewById(R.id.fname);
-            fname.setText(user.get("name"));
-
-            changepas = (Button) findViewById(R.id.btchangepass);
-            changepas.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View arg0){
-
-                    Intent chgpass = new Intent(getApplicationContext(), ChangePassword.class);
-
-                    startActivity(chgpass);
-                }
-
-            });
-
-            btnLogout = (Button) findViewById(R.id.btnLogout);
-            btnLogout.setOnClickListener(new View.OnClickListener() {
-
-                public void onClick(View arg0) {
-                    // TODO Auto-generated method stub
-                    userFunctions.logoutUser(getApplicationContext());
-                    Intent login = new Intent(getApplicationContext(), LoginActivity.class);
-                    login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(login);
-                    // Closing dashboard screen
-                    finish();
-                }
-            });
+            mNavigationDrawerFragment.setUp(
+                    R.id.navigation_drawer,
+                    (DrawerLayout) findViewById(R.id.drawer_layout));
 
         }else{
             // user is not logged in show login screen
@@ -81,8 +55,12 @@ public class DashboardActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+        if (!mNavigationDrawerFragment.isDrawerOpen()) {
+            getMenuInflater().inflate(R.menu.main, menu);
+            restoreActionBar();
+            return true;
+        }
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -96,12 +74,6 @@ public class DashboardActivity extends Activity {
 
             case R.id.help:
                 Toast.makeText(getBaseContext(), "Help", Toast.LENGTH_SHORT).show();
-                break;
-
-            case R.id.about:
-                Toast.makeText(getBaseContext(), "About", Toast.LENGTH_SHORT)
-                        .show();
-                // actionBar.hide();
                 break;
 
             case R.id.call:
@@ -126,5 +98,84 @@ public class DashboardActivity extends Activity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onNavigationDrawerItemSelected(int position) {
+        Fragment objFragment = null;
+        switch (position){
+            case 0:
+                objFragment = new profile_Fragment();
+                break;
+            case 1:
+                objFragment = new chngpass_Fragment();
+                break;
+            case 2:
+                objFragment = new products_Fragment();
+        }
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, objFragment)
+                .commit();
+    }
+
+    public static class PlaceholderFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static PlaceholderFragment newInstance(int sectionNumber) {
+            PlaceholderFragment fragment = new PlaceholderFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public PlaceholderFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.dashboard, container, false);
+            return rootView;
+        }
+
+        @Override
+        public void onAttach(Activity activity) {
+            super.onAttach(activity);
+            ((DashboardActivity) activity).onSectionAttached(
+                    getArguments().getInt(ARG_SECTION_NUMBER));
+        }
+    }
+
+    public void onSectionAttached(int number) {
+        switch (number) {
+            case 1:
+                mTitle = mPage[0];
+
+                break;
+            case 2:
+                mTitle = mPage[1];
+                break;
+            case 3:
+                mTitle = mPage[2];
+                break;
+        }
+    }
+
+    public void restoreActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle(mTitle);
     }
 }

@@ -1,39 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/android">
-    
-    <TextView android:layout_width="fill_parent"
-        	  android:layout_height="wrap_content"
-        	  android:text="WELCOME"
-        	  android:textSize="40dip"
-        	  android:gravity="center"
-        	  android:layout_marginTop="20dip"/>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:id="@+id/drawer_layout"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    tools:context="com.example.bs_36.cwc1.DashboardActivity">
 
-    <TextView android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/fname"
-        android:textSize="40dip"
-        android:gravity="center"
-        android:layout_marginTop="20dip"/>
+    <FrameLayout android:id="@+id/container" android:layout_width="match_parent"
+        android:background="#5ba4e5"
+        android:layout_height="match_parent" />
 
-    <Button
-        android:id="@+id/btchangepass"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Change Password"
-         />
+    <fragment android:id="@+id/navigation_drawer"
+        android:layout_width="@dimen/navigation_drawer_width" android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:name="com.example.bs_36.cwc1.NavigationDrawerFragment"
+        tools:layout="@layout/fragment_navigation_drawer" />
 
-    <Button android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Logout Me"
-        android:textSize="20dip"
-        android:textColor="#0101DF"
-        android:textStyle="bold" 
-        android:id="@+id/btnLogout"
-        android:layout_marginTop="80dip"
-        android:background="@null"/>
-
-</LinearLayout>
+    </android.support.v4.widget.DrawerLayout>

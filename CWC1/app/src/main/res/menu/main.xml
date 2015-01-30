@@ -1,51 +1,49 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".DashboardActivity">
 
     <item android:id="@+id/search"
         android:icon="@drawable/ic_action_search"
         android:title="Search"
-        android:showAsAction="ifRoom|withText"
-        />
-
-    <item android:id="@+id/about"
-        android:icon="@drawable/ic_action_about"
-        android:title="About"
-        android:showAsAction="ifRoom|withText"
+        app:showAsAction="ifRoom|withText"
+        app:actionViewClass="android.support.v7.widget.SearchView"
         />
 
     <item android:id="@+id/overflow"
         android:icon="@drawable/ic_action_overflow"
         android:title="Overflow"
-        android:showAsAction="ifRoom|withText"
+        app:showAsAction="ifRoom|withText"
         >
         <menu>
             <item android:id="@+id/help"
                 android:icon="@drawable/ic_action_help"
                 android:title="Help"
-                android:showAsAction="ifRoom|withText"
+                app:showAsAction="ifRoom|withText"
                 />
 
             <item android:id="@+id/call"
                 android:icon="@drawable/ic_action_call"
                 android:title="Call"
-                android:showAsAction="ifRoom|withText"
+                app:showAsAction="ifRoom|withText"
                 />
 
             <item android:id="@+id/share"
                 android:icon="@drawable/ic_action_share"
                 android:title="Share"
-                android:showAsAction="ifRoom|withText"
+                app:showAsAction="ifRoom|withText"
                 />
 
             <item android:id="@+id/map"
                 android:icon="@drawable/ic_action_map"
                 android:title="Map"
-                android:showAsAction="ifRoom|withText"
+                app:showAsAction="ifRoom|withText"
+
                 />
 
             <item android:id="@+id/logout"
                 android:icon="@drawable/ic_action_logout"
                 android:title="Logout"
-                android:showAsAction="ifRoom|withText"
+                app:showAsAction="ifRoom|withText"
                 />
         </menu>
     </item>

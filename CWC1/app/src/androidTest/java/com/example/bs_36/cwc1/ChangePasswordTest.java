@@ -9,34 +9,25 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import android.content.Intent;
 import android.widget.Button;
+import static org.robolectric.util.FragmentTestUtil.startFragment;
 /**
  * Created by BS-36 on 1/20/2015.
  */
 @RunWith(RobolectricTestRunner.class)
 public class ChangePasswordTest {
-    private ChangePassword changePassword;
-
+    private chngpass_Fragment changePassword;
+//    private DashboardActivity dashboardActivity;
     @Before
     public void setup(){
-        changePassword = Robolectric.buildActivity(ChangePassword.class).create().get();
+
+//        dashboardActivity = Robolectric.buildActivity(DashboardActivity.class).create().get();
+        changePassword = new chngpass_Fragment();
     }
 
     @Test
     public void checkActivityNotNull() throws Exception {
+        startFragment(changePassword);
         assertNotNull(changePassword);
     }
 
-    @Test
-    public void buttonClickShouldStartNewActivity() throws Exception
-    {
-        Button button1 = (Button) changePassword.findViewById(R.id.btchangepass);
-        button1.performClick();
-        Intent intent1 = Robolectric.shadowOf(changePassword).peekNextStartedActivity();
-        assertEquals(ChangePassword.class.getCanonicalName(), intent1.getComponent().getClassName());
-
-        Button button2 = (Button) changePassword.findViewById(R.id.btcancel);
-        button2.performClick();
-        Intent intent2 = Robolectric.shadowOf(changePassword).peekNextStartedActivity();
-        assertEquals(DashboardActivity.class.getCanonicalName(), intent2.getComponent().getClassName());
-    }
 }

@@ -1,13 +1,20 @@
 package com.example.bs_36.cwc1;
 
+import org.brickred.socialauth.Photo;
+import org.brickred.socialauth.Profile;
 import org.brickred.socialauth.android.DialogListener;
 import org.brickred.socialauth.android.SocialAuthAdapter;
 import org.brickred.socialauth.android.SocialAuthAdapter.Provider;
 import org.brickred.socialauth.android.SocialAuthError;
 import org.brickred.socialauth.android.SocialAuthListener;
 
-import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,49 +25,55 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ShareMenu extends Activity {
+import java.io.File;
+import java.util.List;
+
+public class ShareMenu extends ActionBarActivity {
+
+    // SocialAuth Component
     SocialAuthAdapter adapter;
+    Profile profileMap;
+    List<Photo> photosList;
 
     // Android Components
     Button update;
     EditText edit;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.share_layout);
 
+        setContentView(R.layout.share_layout);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Welcome Message
         TextView textview = (TextView) findViewById(R.id.text);
-        textview.setText("Share");
+        textview.setText("Welcome to Code Warrior Challenge Project. Her You can share to any social network!!!");
 
+        // Create Your Own Share Button
+        Button share = (Button) findViewById(R.id.sharebutton);
+        share.setText("Share");
+        share.setTextColor(Color.WHITE);
+        share.setBackgroundResource(R.drawable.button_gradient);
+
+        // Add it to Library
         adapter = new SocialAuthAdapter(new ResponseListener());
+
+        // Add providers
         adapter.addProvider(Provider.FACEBOOK, R.drawable.facebook);
         adapter.addProvider(Provider.TWITTER, R.drawable.twitter);
         adapter.addProvider(Provider.LINKEDIN, R.drawable.linkedin);
-        adapter.addProvider(Provider.GOOGLE, R.drawable.google);
-        adapter.addProvider(Provider.GOOGLEPLUS, R.drawable.googleplus);
-        adapter.addProvider(Provider.MYSPACE, R.drawable.myspace);
-        adapter.addProvider(Provider.RUNKEEPER, R.drawable.runkeeper);
         adapter.addProvider(Provider.YAHOO, R.drawable.yahoo);
         adapter.addProvider(Provider.YAMMER, R.drawable.yammer);
-        adapter.addProvider(Provider.FOURSQUARE, R.drawable.foursquare);
-        adapter.addProvider(Provider.FLICKR, R.drawable.flickr);
-        adapter.addProvider(Provider.INSTAGRAM, R.drawable.instagram);
+        adapter.addProvider(Provider.EMAIL, R.drawable.email);
+        adapter.addProvider(Provider.MMS, R.drawable.mms);
 
-        // For twitter use add callback method. Put your own callback url here.
+        // Providers require setting user call Back url
         adapter.addCallBack(Provider.TWITTER, "http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do");
         adapter.addCallBack(Provider.YAMMER, "http://socialauth.in/socialauthdemo/socialAuthSuccessAction.do");
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.share_menu, menu);
-        final MenuItem item = menu.findItem(R.id.share_action);
-        View actionView = item.getActionView().findViewById(R.id.imgbtnShare);
-        adapter.enable(actionView);
-        return true;
+        // Enable Provider
+        adapter.enable(share);
+
     }
 
     /**
@@ -71,13 +84,13 @@ public class ShareMenu extends Activity {
     private final class ResponseListener implements DialogListener {
         @Override
         public void onComplete(Bundle values) {
-            // Variable to receive message status
-            Log.d("Share-Menu", "Authentication Successful");
+
+            Log.d("ShareButton", "Authentication Successful");
 
             // Get name of provider after authentication
             final String providerName = values.getString(SocialAuthAdapter.PROVIDER);
-            Log.d("Share-Bar", "Provider Name = " + providerName);
-            Toast.makeText(ShareMenu.this, providerName + " connected", Toast.LENGTH_SHORT).show();
+            Log.d("ShareButton", "Provider Name = " + providerName);
+            Toast.makeText(ShareMenu.this, providerName + " connected", Toast.LENGTH_LONG).show();
 
             update = (Button) findViewById(R.id.update);
             edit = (EditText) findViewById(R.id.editTxt);
@@ -89,28 +102,55 @@ public class ShareMenu extends Activity {
 
                 @Override
                 public void onClick(View v) {
-                    // Call updateStatus to share message via oAuth providers
                     adapter.updateStatus(edit.getText().toString(), new MessageListener(), false);
                 }
             });
+
+            // Share via Email Intent
+            if (providerName.equalsIgnoreCase("share_mail")) {
+                // Use your own code here
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto",
+                        "kaziiit@gmail.com", null));
+                emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Test");
+                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
+                        "image5964402.png");
+                Uri uri = Uri.fromFile(file);
+                emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                startActivity(Intent.createChooser(emailIntent, "Test"));
+            }
+
+            // Share via mms intent
+            if (providerName.equalsIgnoreCase("share_mms")) {
+
+                // Use your own code here
+                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
+                        "image5964402.png");
+                Uri uri = Uri.fromFile(file);
+
+                Intent mmsIntent = new Intent(Intent.ACTION_SEND, uri);
+                mmsIntent.putExtra("sms_body", "Test");
+                mmsIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                mmsIntent.setType("image/png");
+                startActivity(mmsIntent);
+            }
+
         }
 
         @Override
         public void onError(SocialAuthError error) {
-            error.printStackTrace();
-            Log.d("Share-Menu", error.getMessage());
+            Log.d("ShareButton", "Authentication Error: " + error.getMessage());
         }
 
         @Override
         public void onCancel() {
-            Log.d("Share-Menu", "Authentication Cancelled");
+            Log.d("ShareButton", "Authentication Cancelled");
         }
 
         @Override
         public void onBack() {
-            Log.d("Share-Menu", "Dialog Closed by pressing Back Key");
-
+            Log.d("Share-Button", "Dialog Closed by pressing Back Key");
         }
+
     }
 
     // To get status of message after authentication
@@ -121,7 +161,7 @@ public class ShareMenu extends Activity {
             if (status.intValue() == 200 || status.intValue() == 201 || status.intValue() == 204)
                 Toast.makeText(ShareMenu.this, "Message posted on " + provider, Toast.LENGTH_LONG).show();
             else
-                Toast.makeText(ShareMenu.this, "Message not posted on" + provider, Toast.LENGTH_LONG).show();
+                Toast.makeText(ShareMenu.this, "Message not posted on " + provider, Toast.LENGTH_LONG).show();
         }
 
         @Override
@@ -129,4 +169,16 @@ public class ShareMenu extends Activity {
 
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

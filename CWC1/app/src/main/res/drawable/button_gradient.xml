@@ -22,17 +22,17 @@
  THE SOFTWARE.
  ===========================================================================
 -->
-
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-    
-<ImageView
-            android:id="@+id/imgbtnShare"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/share_button_selector" />
-</LinearLayout>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+ 	<gradient 
+        android:startColor="#f66a11" 
+        android:centerColor="#f77b2d"
+        android:endColor="#f99f66"
+        android:angle="90"
+     />
+ 	<stroke android:width="0.5dp" android:color="#313437" />
+    <corners
+     android:bottomRightRadius="4dp"
+     android:bottomLeftRadius="4dp"
+  	 android:topLeftRadius="4dp"
+  	 android:topRightRadius="4dp"/>
+</shape>
